@@ -19,7 +19,7 @@
                     <group>
                         <h1>Hello</h1>
                         <field name="name"/>
-<!--                        <field name="description"/>-->
+                        <field name="responsible_id"/>
                     </group>
                      <notebook>
                         <page string="Description">
@@ -38,9 +38,9 @@
         <field name="name">course.tree</field>
         <field name="model">openacademy.course</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree string="Course Tree">
                 <field name="name"/>
-                <field name="description"/>
+                <field name="responsible_id"/>
             </tree>
         </field>
     </record>
@@ -65,8 +65,7 @@
     <!-- the following menuitem should appear *after*
          its parent openacademy_menu and *after* its
          action course_list_action -->
-    <menuitem id="courses_menu" name="Courses" parent="openacademy_menu"/>
-<!--    action="course_list_action"-->
+    <menuitem id="courses_menu" name="Courses" parent="openacademy_menu" action="course_list_action" />
         <!-- Full id location:
              action="openacademy.course_list_action"
              It is not required when it is the same module -->
@@ -80,11 +79,19 @@
             <form string="Session Form">
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="start_date"/>
-                        <field name="duration"/>
-                        <field name="seats"/>
+                        <group string="General">
+                            <field name="course_id"/>
+                            <field name="name"/>
+                            <field name="instructor_id"/>
+                        </group>
+                        <group string="Schedule">
+                            <field name="start_date"/>
+                            <field name="duration"/>
+                            <field name="seats"/>
+                        </group>
                     </group>
+                    <label for="attendee_ids"/>
+                    <field name="attendee_ids"/>
                 </sheet>
             </form>
         </field>
@@ -95,6 +102,19 @@
         <field name="res_model">openacademy.session</field>
         <field name="view_mode">form</field>
     </record>
+
+    <!-- session tree/list view -->
+    <record model="ir.ui.view" id="session_tree_view">
+        <field name="name">session.tree</field>
+        <field name="model">openacademy.session</field>
+        <field name="arch" type="xml">
+            <tree string="Session Tree">
+                <field name="name"/>
+                <field name="course_id"/>
+            </tree>
+        </field>
+    </record>
+
 
     <menuitem id="session_menu" name="Sessions"
               parent="openacademy_menu"
